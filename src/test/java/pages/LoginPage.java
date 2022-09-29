@@ -13,22 +13,22 @@ public class LoginPage extends BasePage {
         super(driver);
     }
 
-    public WebElement getUsernameField() {
+    public WebElement getUsername() {
         return getDriver().findElement(username);
     }
 
-    public WebElement getPasswordField() {
+    public WebElement getPassword() {
         return getDriver().findElement(password);
     }
 
-    public WebElement getLoginButton() {
+    public WebElement getLoginBtn() {
         return getDriver().findElement(loginButton);
     }
 
     public void login(String username, String password) {
-        getUsernameField().sendKeys(username);
-        getPasswordField().sendKeys(password);
-        getLoginButton().click();
+        getUsername().sendKeys(username);
+        getPassword().sendKeys(password);
+        getLoginBtn().click();
     }
 
 }

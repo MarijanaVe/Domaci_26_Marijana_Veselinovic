@@ -13,10 +13,10 @@ import java.time.Duration;
 public class Testiranje {
 
     private LoginPage loginPage;
-    private AddToCart addProduct;
-    private Checkout checkOutMessage;
+    private AddToCart addToCart;
+    private Checkout checkout;
     private ConfirmPage confirmPage;
-    private LogoutPage endPage;
+    private LogoutPage logoutPage;
     private CartPage cartPage;
     private WebDriver driver;
 
@@ -27,11 +27,11 @@ public class Testiranje {
         driver = new ChromeDriver();
         driver.get("https://www.saucedemo.com");
         loginPage = new LoginPage(driver);
-        addProduct = new AddToCart(driver);
+        addToCart = new AddToCart(driver);
         cartPage = new CartPage(driver);
-        checkOutMessage = new Checkout(driver);
+        checkout = new Checkout(driver);
         confirmPage = new ConfirmPage(driver);
-        endPage = new LogoutPage(driver);
+        logoutPage= new LogoutPage(driver);
     }
 
     @Test
@@ -44,20 +44,20 @@ public class Testiranje {
 
 
     @Test(dependsOnMethods = "login")
-    public void addProduct()  {
+    public void dodavanjeProizvoda ()  {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        addProduct.add();
-        addProduct.clickCart();
+        addToCart.add();
+        addToCart.clickCart();
     }
 
-    @Test(dependsOnMethods = "addProduct")
+    @Test(dependsOnMethods = "dodavanjeProizvoda")
     public void checkOut()  {
         cartPage.checkout();
         Assert.assertTrue(driver.getPageSource().contains("Checkout: Your Information"));
     }
 
     @Test(dependsOnMethods = "checkOut")
-    public void confirm() {
+    public void konfirmacija() {
         confirmPage.popunjavanje();
         confirmPage.nextPage();
         Assert.assertTrue(driver.getPageSource().contains("Checkout: Overview"));
@@ -65,16 +65,16 @@ public class Testiranje {
         Assert.assertTrue(driver.getPageSource().contains("DESCRIPTION"));
     }
 
-    @Test(dependsOnMethods = "confirm")
-    public void checkoutMessage() {
-        Assert.assertEquals(checkOutMessage.getTotal(), "Total: $32.39");
-        checkOutMessage.finish();
+    @Test(dependsOnMethods = "konfirmacija")
+    public void checkout() {
+        Assert.assertEquals(checkout.getTotal(), "Total: $32.39");
+        checkout.finish();
         Assert.assertTrue(driver.getPageSource().contains("THANK YOU FOR YOUR ORDER"));
     }
 
-    @Test(dependsOnMethods = "checkoutMessage")
+    @Test(dependsOnMethods = "checkout")
     public void logout()  {
-        endPage.logout();
+        logoutPage.logout();
         Assert.assertTrue(driver.getPageSource().contains("Swag Labs"));
         Assert.assertTrue(driver.getPageSource().contains("Login"));
     }

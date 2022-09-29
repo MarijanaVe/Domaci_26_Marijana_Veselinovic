@@ -14,18 +14,18 @@ public class LogoutPage extends BasePage {
 
     }
 
-    public By getConfirmMessage() {
+    public By getConfirmMsg() {
         return confirmMsg;
     }
 
-    public By getMenuButton() {
+    public By getMenu() {
         return menu;
     }
 
     public void logout() {
         WebElement menu = getDriver().findElement(By.id("react-burger-menu-btn"));
         menu.click();
-        WebElement logoutButton = getDriver().findElement(By.id("logout_sidebar_link"));
-        logoutButton.click();
+        WebElement logoutBtn = getDriver().findElement(By.id("logout_sidebar_link"));
+        logoutBtn.click();
     }
 }
